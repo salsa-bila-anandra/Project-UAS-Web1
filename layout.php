@@ -123,9 +123,13 @@ if (!isset($title)) {
     <h2>Dashboard</h2>
    <a href="dashboard.php">Home</a>
 <a href="produk.php">List Produk</a>
-<a href="customer.php">Customer</a>
+
+<?php if ($_SESSION['role'] == 'admin'): ?>
+    <a href="customer.php">Customer</a>
+    <a href="laporan.php">Laporan</a>
+<?php endif; ?>
+
 <a href="transaksi.php">Transaksi</a>
-<a href="laporan.php">Laporan</a>
 <a href="logout.php">Logout</a>
 
 </div>
@@ -136,10 +140,20 @@ if (!isset($title)) {
     <!-- TOPBAR -->
     <div class="topbar">
         <div><?= $title; ?></div>
-        <div class="profile">
-            <?= $_SESSION['name']; ?>
-        </div>
-    </div>
+       <div class="profile">
+    <?= $_SESSION['name']; ?>
+    <?php if ($_SESSION['role'] == 'admin'): ?>
+        <span style="
+            background:#e74c3c;
+            color:white;
+            padding:3px 8px;
+            border-radius:12px;
+            font-size:12px;
+            margin-left:6px;
+        ">Admin</span>
+    <?php endif; ?>
+</div>
+
 
     <!-- CONTENT -->
     <div class="content">
