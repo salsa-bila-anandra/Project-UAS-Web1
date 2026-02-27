@@ -75,5 +75,5 @@ while ($p = mysqli_fetch_assoc($data)) {
 
 $content .= "</table>";
 
-include "../layout.php";
+include "layout.php";
 ?>

@@ -205,8 +205,8 @@ $user = $_SESSION['user'];
     <h2>Dashboard</h2>
 
     <a href="dashboard.php">Home</a>
-    <a href="customer/customer.php">Customer</a>
-    <a href="produk/produk.php">Produk</a>
+    <a href="customer.php">Customer</a>
+    <a href="produk.php">Produk</a>
     <a href="transaksi.php">Transaksi</a>
     <a href="laporan.php">Laporan</a>
     <a href="logout.php">Logout</a>
