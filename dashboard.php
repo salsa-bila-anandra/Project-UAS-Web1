@@ -1,12 +1,10 @@
 <?php
-$title = "Dashboard";
-include 'layout.php';
+$title = "Home";
+
+$content = "
+<h3>Selamat Datang di Sistem Penjualan</h3>
+<p>Silakan pilih menu di sidebar kiri.</p>
+";
+
+include "layout.php";
 ?>
-
-<h2>Welcome Dashboard</h2>
-<p>Selamat datang di sistem penjualan.</p>
-
-    </div>
-</div>
-</body>
-</html>

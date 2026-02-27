@@ -1,3 +1,2 @@
 <?php
-echo "TES OK";
-?>
+echo "APACHE JALAN";

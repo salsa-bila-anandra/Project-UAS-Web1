@@ -1,8 +1,9 @@
 <?php
-session_start();
-include 'koneksi.php';
+$conn = mysqli_connect("localhost","root","","db_kasir");
 
 $id = $_GET['id'];
-mysqli_query($conn, "DELETE FROM customers WHERE id=$id");
 
-header("Location: customer.php");
+mysqli_query($conn,"DELETE FROM customer WHERE id_customer='$id'");
+
+header("location:customer.php");
+?>

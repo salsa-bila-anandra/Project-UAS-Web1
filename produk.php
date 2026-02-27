@@ -1,54 +1,79 @@
 <?php
-$title = "Data Produk";
-include 'layout.php';
-include 'koneksi.php';
+include "koneksi.php";
 
-// CREATE
+/* ===============================
+✅ SIMPAN PRODUK
+=============================== */
 if (isset($_POST['simpan'])) {
-    $name  = $_POST['name'];
-    $price = $_POST['price'];
-    $stock = $_POST['stock'];
 
-    mysqli_query($conn, "INSERT INTO products VALUES (NULL,'$name','$price','$stock')");
+    $nama  = $_POST['nama'];
+    $harga = $_POST['harga'];
+    $stok  = $_POST['stok'];
+
+    mysqli_query($conn, "INSERT INTO produk (nama_produk, harga, stok)
+        VALUES ('$nama', '$harga', '$stok')");
+
+    header("Location: produk.php");
+    exit;
 }
 
-// READ
-$data = mysqli_query($conn, "SELECT * FROM products");
-?>
+/* ===============================
+✅ AMBIL DATA PRODUK
+=============================== */
+$data = mysqli_query($conn, "SELECT * FROM produk");
 
+$content = "
 <h2>Data Produk</h2>
 
-<form method="post">
-    <input type="text" name="name" placeholder="Nama Produk" required>
-    <input type="number" name="price" placeholder="Harga" required>
-    <input type="number" name="stock" placeholder="Stok" required>
-    <button name="simpan">Simpan</button>
+<form method='POST' style='margin-bottom:20px;'>
+
+    <input type='text' name='nama' placeholder='Nama Produk' required>
+    <input type='number' name='harga' placeholder='Harga' required>
+    <input type='number' name='stok' placeholder='Stok' required>
+
+    <button name='simpan'>Simpan</button>
 </form>
 
-<table>
-    <tr>
-        <th>No</th>
-        <th>Nama</th>
-        <th>Harga</th>
-        <th>Stok</th>
-        <th>Aksi</th>
-    </tr>
+<hr>
 
-<?php $no=1; while($p = mysqli_fetch_assoc($data)): ?>
+<table>
+<tr>
+    <th>No</th>
+    <th>Nama Produk</th>
+    <th>Harga</th>
+    <th>Stok</th>
+    <th>Aksi</th>
+</tr>
+";
+
+$no = 1;
+while ($p = mysqli_fetch_assoc($data)) {
+
+    $content .= "
     <tr>
-        <td><?= $no++ ?></td>
-        <td><?= $p['name'] ?></td>
-        <td><?= $p['price'] ?></td>
-        <td><?= $p['stock'] ?></td>
+        <td>$no</td>
+        <td>{$p['nama_produk']}</td>
+        <td>Rp. {$p['harga']}</td>
+        <td>{$p['stok']}</td>
+
         <td>
-            <a href="produk_edit.php?id=<?= $p['id'] ?>">Edit</a> |
-            <a href="produk_hapus.php?id=<?= $p['id'] ?>" onclick="return confirm('Hapus data?')">Hapus</a>
+            <a class='btn btn-edit'
+               href='produk_edit.php?id={$p['id_produk']}'>
+               Edit
+            </a>
+
+            <a class='btn btn-hapus'
+               href='produk_hapus.php?id={$p['id_produk']}'
+               onclick='return confirm(\"Yakin hapus produk ini?\")'>
+               Hapus
+            </a>
         </td>
     </tr>
-<?php endwhile; ?>
-</table>
+    ";
+    $no++;
+}
 
-    </div>
-</div>
-</body>
-</html>
+$content .= "</table>";
+
+include "../layout.php";
+?>

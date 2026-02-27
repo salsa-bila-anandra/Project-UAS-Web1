@@ -1,159 +1,235 @@
 <?php
-// layout.php
 session_start();
+
 if (!isset($_SESSION['login'])) {
-    header("Location: index.php");
+    header("Location: login.php");
     exit;
 }
 
-// Judul halaman (opsional)
-if (!isset($title)) {
-    $title = "Dashboard";
-}
+$user = $_SESSION['user'];
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title><?= $title; ?></title>
+    <title>Dashboard Penjualan</title>
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
         body {
-            background: #f4f6f8;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
         }
 
-        /* SIDEBAR */
+        /* =======================
+           SIDEBAR MENU
+        ======================= */
         .sidebar {
+            width: 230px;
+            height: 100vh;
+            background: #1f2d3d;
             position: fixed;
             left: 0;
             top: 0;
-            width: 230px;
-            height: 100vh;
-            background: #2c3e50;
-            color: #fff;
+            padding-top: 20px;
         }
 
         .sidebar h2 {
-            padding: 20px;
+            color: white;
             text-align: center;
-            background: #1a252f;
+            margin-bottom: 30px;
         }
 
         .sidebar a {
             display: block;
             padding: 15px 20px;
-            color: #fff;
+            color: white;
             text-decoration: none;
-            border-bottom: 1px solid #34495e;
+            font-size: 16px;
         }
 
         .sidebar a:hover {
             background: #34495e;
         }
 
-        /* MAIN */
-        .main {
-            margin-left: 230px;
-            min-height: 100vh;
-        }
-
-        /* TOPBAR */
-        .topbar {
-            background: #ffffff;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .profile {
-            background: #3498db;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        /* CONTENT */
+        /* =======================
+           MAIN CONTENT
+        ======================= */
         .content {
+            margin-left: 230px;
             padding: 30px;
         }
 
-        /* TABLE */
+        /* =======================
+           USER TOP BUTTON (ADMIN)
+        ======================= */
+        .top-user {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .user-button {
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s;
+            box-shadow: 0px 0px 6px rgba(0,0,0,0.15);
+        }
+
+        .user-button:hover {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        /* =======================
+           CARD BOX
+        ======================= */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 12px rgba(0,0,0,0.1);
+        }
+
+        /* =======================
+           BUTTON STYLE
+        ======================= */
+        .btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            margin: 2px;
+            display: inline-block;
+        }
+
+        .btn-edit {
+            background: #3498db;
+        }
+
+        .btn-edit:hover {
+            background: #217dbb;
+        }
+
+        .btn-hapus {
+            background: #e74c3c;
+        }
+
+        .btn-hapus:hover {
+            background: #c0392b;
+        }
+
+        /* =======================
+           TABLE STYLE
+        ======================= */
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
             margin-top: 15px;
         }
 
-        table th, table td {
+        th, td {
             border: 1px solid #ddd;
             padding: 10px;
-            text-align: left;
         }
 
-        table th {
-            background: #f0f0f0;
+        th {
+            background: #f2f2f2;
+            text-align: center;
         }
 
-        /* FORM */
-        input, button {
-            padding: 8px;
-            margin: 5px 0;
+        td {
+            text-align: center;
+        }
+
+        /* =======================
+           FORM INPUT STYLE
+        ======================= */
+        input, select {
+            padding: 10px;
+            margin: 5px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
         }
 
         button {
+            padding: 10px 15px;
+            border-radius: 8px;
+            background: black;
+            color: white;
+            border: none;
             cursor: pointer;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        /* =======================
+           PRINT MODE (LAPORAN)
+        ======================= */
+        @media print {
+            .sidebar {
+                display: none;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            button {
+                display: none;
+            }
+
+            .top-user {
+                display: none;
+            }
         }
     </style>
 </head>
+
 <body>
 
-<!-- SIDEBAR -->
+<!-- =======================
+     SIDEBAR
+======================= -->
 <div class="sidebar">
     <h2>Dashboard</h2>
-   <a href="dashboard.php">Home</a>
-<a href="produk.php">List Produk</a>
 
-<?php if ($_SESSION['role'] == 'admin'): ?>
-    <a href="customer.php">Customer</a>
+    <a href="dashboard.php">Home</a>
+    <a href="customer/customer.php">Customer</a>
+    <a href="produk/produk.php">Produk</a>
+    <a href="transaksi.php">Transaksi</a>
     <a href="laporan.php">Laporan</a>
-<?php endif; ?>
+    <a href="logout.php">Logout</a>
+</div>
 
-<a href="transaksi.php">Transaksi</a>
-<a href="logout.php">Logout</a>
+<!-- =======================
+     CONTENT AREA
+======================= -->
+<div class="content">
+
+    <!-- Tombol User Admin -->
+    <div class="top-user">
+        <a href="profil.php" class="user-button">
+            👤 <?= $user['username']; ?>
+        </a>
+    </div>
+
+    <!-- Isi Halaman -->
+    <div class="card">
+        <?= $content; ?>
+    </div>
 
 </div>
 
-<!-- MAIN -->
-<div class="main">
-
-    <!-- TOPBAR -->
-    <div class="topbar">
-        <div><?= $title; ?></div>
-       <div class="profile">
-    <?= $_SESSION['name']; ?>
-    <?php if ($_SESSION['role'] == 'admin'): ?>
-        <span style="
-            background:#e74c3c;
-            color:white;
-            padding:3px 8px;
-            border-radius:12px;
-            font-size:12px;
-            margin-left:6px;
-        ">Admin</span>
-    <?php endif; ?>
-</div>
-
-
-    <!-- CONTENT -->
-    <div class="content">
+</body>
+</html>

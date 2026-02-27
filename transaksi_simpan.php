@@ -34,3 +34,4 @@ foreach ($qtys as $pid => $qty) {
 }
 
 header("Location: transaksi.php");
+exit;
